@@ -6,15 +6,21 @@ if (!empty($_POST["btningresar"])) {
         $usuario = $_POST["usuario"];
         $clave = $_POST["contraseña"];
 
-        // IMPORTANTE: esta tabla debe llamarse "login" y tener campos "usuario" y "clave"
-        $sql = $conexion->query("SELECT * FROM login WHERE usuario = '$usuario' AND contraseña = '$clave'");
+        // Consulta segura con sentencia preparada
+        $stmt = $conexion->prepare("SELECT * FROM login WHERE usuario = ? AND contraseña = ?");
+        $stmt->bind_param("ss", $usuario, $clave); // "ss" indica dos strings
+        $stmt->execute();
+        $resultado = $stmt->get_result();
 
-        if ($datos = $sql->fetch_object()) {
+        if ($resultado->num_rows > 0) {
+            
             header("Location: Sistema/index.php");
-            exit(); // importante para evitar seguir procesando
+            exit();
         } else {
             echo '<div id="errorMsg" class="alert alert-danger" role="alert">ACCESO DENEGADO</div>';
         }
+
+        $stmt->close();
     }
 }
 ?>

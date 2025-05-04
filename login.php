@@ -1,3 +1,14 @@
+<?php
+// ACTIVA los errores para depurar
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Incluye primero la conexión y el controlador
+include("conexion_bd.php");
+include("controlador.php");
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -94,10 +105,6 @@
 
     <div class="login-card">
         <h2>Iniciar Sesión</h2>
-        <?php
-        include("conexion_bd.php");
-        include("controlador.php");
-        ?>
         <form method="POST">
             <input id="usuario" type="email" name="usuario" class="form-control" placeholder="Usuario" required>
             <div class="input-group mb-3">
